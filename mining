@@ -1,21 +1,15 @@
-# Make sure you have root privileges before running.
-# wget -O - https://raw.githubusercontent.com/issacasimov2022/sh/main/mining | sh -m 0xaddress -t 1
+# Install/Update: wget -qO- https://raw.githubusercontent.com/issacasimov2022/sh/main/mining | sh -s 0xaddress
+# Restart: service doidnode restart
+# Make sure the systemd service is enabled before running.
 
-# Get Command Options
-while getopts ':m:t:' opt
-do
-  case $opt in
-    m) MINER=$OPTARG;;
-    t) THREADS=$OPTARG;;
-    [?])
-    echo "Usage: $0 [-m YourAddress]"
-    exit 1;;
-  esac
-done
+MINER=$1
+THREADS=${2:-`grep -c ^processor /proc/cpuinfo`}
+ARCH=$([ `uname -m` = "x86_64" ] && echo amd || echo arm)
 
-ZIP=doidnode-linux-amd64.zip
+ZIP=doidnode-linux-${ARCH}64.zip
 TMP=/tmp/$ZIP
 wget -qO $TMP https://github.com/DOIDFoundation/node/releases/download/v0.0.2/$ZIP && unzip $TMP -od /usr/bin && rm $TMP
+
 
 ## As service
 cat>/usr/lib/systemd/system/doidnode.service<<EOF
@@ -35,6 +29,4 @@ EOF
 
 echo -e "nnet.core.rmem_max=2500000\nnet.core.wmem_max=2500000" >> /etc/sysctl.conf
 
-systemctl enable doidnode.service
-systemctl daemon-reload
-systemctl start doidnode.service
+service doidnode start
