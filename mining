@@ -8,7 +8,7 @@ ARCH=$([ `uname -m` = "x86_64" ] && echo amd || echo arm)
 
 ZIP=doidnode-linux-${ARCH}64.zip
 TMP=/tmp/$ZIP
-wget -qO $TMP https://github.com/DOIDFoundation/node/releases/download/v0.0.2/$ZIP && unzip $TMP -od /usr/bin && rm $TMP
+wget -qO $TMP https://github.com/DOIDFoundation/node/releases/download/v0.0.2/$ZIP && unzip -o $TMP -d /usr/bin && rm $TMP
 
 
 ## As service
@@ -29,4 +29,4 @@ EOF
 
 echo -e "nnet.core.rmem_max=2500000\nnet.core.wmem_max=2500000" >> /etc/sysctl.conf
 
-service doidnode start
+service doidnode.service start
