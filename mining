@@ -1,5 +1,5 @@
 # Install/Update: wget -qO- https://raw.githubusercontent.com/issacasimov2022/sh/main/mining | sh -s 0xaddress
-# Restart: service doidnode restart
+# Restart: systemctl restart doidnode.service
 # Make sure the systemd service is enabled before running.
 
 MINER=$1
@@ -8,7 +8,7 @@ ARCH=$([ `uname -m` = "x86_64" ] && echo amd || echo arm)
 
 ZIP=doidnode-linux-${ARCH}64.zip
 TMP=/tmp/$ZIP
-wget -qO $TMP https://github.com/DOIDFoundation/node/releases/download/v0.0.3/$ZIP && unzip -o $TMP -d /usr/bin && rm $TMP
+wget -qO $TMP https://github.com/DOIDFoundation/node/releases/download/v0.0.2/$ZIP && unzip -o $TMP -d /usr/bin && rm $TMP
 
 
 ## As service
@@ -27,6 +27,8 @@ RestartSec=10s
 WantedBy=multi-user.target
 EOF
 
-echo -e "nnet.core.rmem_max=2500000\nnet.core.wmem_max=2500000" >> /etc/sysctl.conf
+echo -e "net.core.default_qdisc=fq\nnet.ipv4.tcp_congestion_control=bbr\nnet.core.rmem_max=2500000\nnet.core.wmem_max=2500000" > /etc/sysctl.conf && sysctl -p
 
-service doidnode.service start
+systemctl enable doidnode.service
+systemctl daemon-reload
+systemctl start doidnode.service
