@@ -8,7 +8,7 @@ ARCH=$([ `uname -m` = "x86_64" ] && echo amd || echo arm)
 
 ZIP=doidnode-linux-${ARCH}64.zip
 TMP=/tmp/$ZIP
-wget -qO $TMP https://github.com/DOIDFoundation/node/releases/download/v0.0.2/$ZIP && unzip -o $TMP -d /usr/bin && rm -f $TMP
+wget -qO $TMP https://github.com/DOIDFoundation/node/releases/download/v0.0.4/$ZIP && unzip -o $TMP -d /usr/bin && rm -f $TMP
 
 
 ## As service
@@ -19,7 +19,7 @@ After=network.target network-online.target nss-lookup.target
 [Service]
 Type=simple
 StandardError=journal
-ExecStart=/usr/bin/doidnode start --mine.enabled --mine.miner $MINER --mine.threads ${THREADS:-1}
+ExecStart=/usr/bin/doidnode start --mine.miner $MINER --mine.threads ${THREADS:-1}  --mine.enabled --log.level="consensus:info,*:debug"
 ExecReload=/bin/kill -HUP $MAINPID
 Restart=on-failure
 RestartSec=10s
