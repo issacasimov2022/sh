@@ -30,5 +30,6 @@ EOF
 echo -e "net.core.default_qdisc=fq\nnet.ipv4.tcp_congestion_control=bbr\nnet.core.rmem_max=2500000\nnet.core.wmem_max=2500000" > /etc/sysctl.conf && sysctl -p
 
 systemctl enable doidnode.service
+systemctl stop doidnode.service
 systemctl daemon-reload
 systemctl start doidnode.service
