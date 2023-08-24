@@ -8,7 +8,7 @@ ARCH=$([ `uname -m` = "x86_64" ] && echo amd || echo arm)
 
 ZIP=doidnode-linux-${ARCH}64.zip
 TMP=/tmp/$ZIP
-wget -qO $TMP https://github.com/DOIDFoundation/node/releases/download/v0.1.0/$ZIP && unzip -o $TMP -d /usr/bin && rm -f $TMP
+wget -qO $TMP https://github.com/DOIDFoundation/node/releases/download/v0.2.0/$ZIP && unzip -o $TMP -d /usr/bin && rm -f $TMP
 
 
 ## As service
