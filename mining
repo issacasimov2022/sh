@@ -1,9 +1,10 @@
-# Install/Update: wget -qO- https://raw.githubusercontent.com/issacasimov2022/sh/main/mining | sh -s 0xaddress
+# Install/Update: wget -qO- https://raw.githubusercontent.com/issacasimov2022/sh/main/mining | sh -s 0xaddress 2
 # Restart: systemctl restart doidnode.service
 # Make sure the systemd service is enabled before running.
 
 MINER=$1
-THREADS=${2:-`grep -c ^processor /proc/cpuinfo`}
+NETWORKID=${2:-1}
+THREADS=${3:-`grep -c ^processor /proc/cpuinfo`}
 ARCH=$([ `uname -m` = "x86_64" ] && echo amd || echo arm)
 
 ZIP=doidnode-linux-${ARCH}64.zip
